@@ -7,7 +7,7 @@ interface Stopable {
         void stop();
    }
   abstract class Car {
-      public Engine engine;
+      public Engine engine; //создать класс
       private String color;
       private String name;
 
@@ -48,20 +48,24 @@ interface Stopable {
               System.out.println("Car is open");
           }
 
-          @
-                  Override
+          @Override
           public void move() {
               System.out.println("Car is moving");
           }
       }
 
-      class Lorry extends Car, Moveable, Stopable {
+      class Lorry extends Car implements Moveable, Stopable {
           public void move() {
               System.out.println("Car is moving");
           }
 
           public void stop() {
               System.out.println("Car is stop");
+          }
+
+          @Override
+          void open() {
+
           }
       }
   }
