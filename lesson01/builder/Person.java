@@ -15,14 +15,10 @@ public class Person {
     private String phone;
 
     private int age;
-
     private String gender;
-
-
 
     private Person() {
     }
-
 
     public String getFirstname() {
         return firstname;
@@ -36,12 +32,16 @@ public class Person {
         return middleName;
     }
 
+    public String getCountry() { return country;}
+
+    public String getAddress() { return address;}
+
+    public String getPhone() { return phone;}
+
+    public int getAge() { return age;}
+
     public String getGender() {
         return gender;
-    }
-
-    public String getProfession() {
-        return profession;
     }
 
     public static Builder createBuilder() {
@@ -66,8 +66,24 @@ public class Person {
             return this;
         }
 
-        public Builder withBirthdate(String middleName) {
+        public Builder withMiddleName(String middleName) {
             this.person.middleName = middleName;
+            return this;
+        }
+        public Builder withCountry(String country) {
+            this.person.country = country;
+            return this;
+        }
+        public Builder withAddress(String address) {
+            this.person.address = address;
+            return this;
+        }
+        public Builder withPhone(String phone) {
+            this.person.phone = phone;
+            return this;
+        }
+        public Builder withAge(int age) {
+            this.person.age = age;
             return this;
         }
 
@@ -76,21 +92,36 @@ public class Person {
             return this;
         }
 
-        public Builder withProfession(String profession) {
-            this.person.profession = profession;
-            return this;
-        }
-
         public Person build() {
             return person;
         }
     }
 
+
     public static void main(String[] args) {
         Person person = Person.createBuilder()
                 .withFirstname("Ivan")
                 .withLastname("Petrov")
+                .withMiddleName("Ivanovich")
+                .withCountry("Russia")
+                .withAddress("Moscow")
+                .withPhone("+79999999999")
+                .withAge(30)
                 .withGender("M")
                 .build();
+        System.out.println(person);
+    }
+    @Override
+    public String toString() {
+        return "Person{" +
+                "firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", country='" + country + '\'' +
+                ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
+                ", age=" + age +
+                ", gender='" + gender + '\'' +
+                '}';
     }
 }
