@@ -7,7 +7,7 @@ interface Stopable {
         void stop();
    }
   abstract class Car {
-      public Engine engine; //создать класс
+      private Engine engine; //создать класс
       private String color;
       private String name;
 

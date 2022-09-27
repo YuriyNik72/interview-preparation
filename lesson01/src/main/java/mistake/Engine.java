@@ -1,4 +1,4 @@
 package mistake;
 
-public class Engine {
+public interface Engine {
 }
