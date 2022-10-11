@@ -1,53 +1,39 @@
 package ru.geekbrains.controllers;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import ru.geekbrains.dto.StudentDto;
 import ru.geekbrains.service.StudentService;
 
-@Controller
-@RequestMapping("/")
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/v1/students")
 public class StudentController {
 
-    private StudentService service;
+    final StudentService studentService;
 
-    @Autowired
-    public void setStudent(StudentService service){
-        this.service= service;
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
     }
 
-    //  Показать весь список студентов
-    @GetMapping("/list")
-    public String showStudent(Model uiModel) {
-        uiModel.addAttribute("student", service.getStudent());
-        return "students";
+    @GetMapping
+    public List<StudentDto> getAllStudents() {
+        return studentService.getStudents();
     }
 
-    @GetMapping(path = "/minAge")
-    public String showMinAge(Model uiModel, @RequestParam("min") int min) {
-        uiModel.addAttribute("student",service.getMinStudent(min));
-        return "students";
+    @PostMapping
+    public void addStudent(@RequestBody StudentDto studentDto){
+        studentService.saveStudent(studentDto);
     }
 
-    @GetMapping(path = "/maxAge")
-    public String showMaxAge(Model uiModel, @RequestParam("max") int max){
-        uiModel.addAttribute("student", service.getMaxStudent(max));
-        return "students";
+    @DeleteMapping
+    public void deleteStudent(@RequestParam Long id){
+        studentService.deleteStudent(id);
     }
 
-    @GetMapping(path = "/minMaxAge")
-    public String showMinAndMaxAge(Model uiModel, @RequestParam("min") int min, @RequestParam("max") int max) {
-        uiModel.addAttribute("student", service.getMinAndMaxAge(min,max));
-        return "students";
-    }
-
-    @GetMapping(path = "/page")
-    public String showStudent(Model uiModel, @RequestParam("pageNum") int pageNum){
-        uiModel.addAttribute("student", service.getStudentByPage(pageNum-1));
-        return "students";
+    @PutMapping
+    public void updateStudent(@RequestBody StudentDto studentDto){
+        studentService.saveStudent(studentDto);
     }
 }

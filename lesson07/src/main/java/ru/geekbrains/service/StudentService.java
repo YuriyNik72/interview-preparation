@@ -1,11 +1,8 @@
 package ru.geekbrains.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import ru.geekbrains.dto.StudentDto;
 import ru.geekbrains.entity.Student;
-import ru.geekbrains.repositories.PageRepository;
 import ru.geekbrains.repositories.StudentRepository;
 
 import java.util.List;
@@ -14,37 +11,33 @@ import java.util.stream.Collectors;
 @Service
 public class StudentService {
 
+    private final StudentRepository repo;
 
-    private StudentRepository studentRepository;
-    private PageRepository pageRepository;
-
-    @Autowired
-    public void setStudentRepository(StudentRepository studentRepository){
-        this.studentRepository = studentRepository;
-    }
-    @Autowired
-    public void setPageRepository(PageRepository pageRepository){
-        this.pageRepository=pageRepository;
+    public StudentService(StudentRepository repo) {
+        this.repo = repo;
     }
 
-    public List<Student> getStudent() {
-        return studentRepository.findAll();
+    public List<StudentDto> getStudents() {
+        return studentsMapper(repo.findAll());
     }
 
-    public List<Student> getMinStudent(int min) {
-        return studentRepository.findAllByAgeLessThanOderByAge(min);
+    public void saveStudent(StudentDto studentDto) {
+        repo.save(studentMapper(studentDto));
     }
 
-    public List<Student> getMaxStudent(int max) {
-        return studentRepository.findAllByAgeGreaterThanOrderByAge(max);
+    public void deleteStudent(Long id) {
+        repo.deleteById(id);
     }
 
-    public List<Student> getStudentByPage(int pageNum) {
-        Page<Student> pr= pageRepository.findAll(PageRequest.of(pageNum,5));
-        return pr.stream().collect(Collectors.toList());
+    private List<StudentDto> studentsMapper(List<Student> students) {
+        return students.stream().map(this::studentMapper).collect(Collectors.toList());
     }
 
-    public List<Student> getMinAndMaxAge(int min, int max) {
-        return studentRepository.findAllByAgeBetweenOrderByAge(min,max);
+    private StudentDto studentMapper(Student student) {
+        return new StudentDto(student.getId(), student.getAge(), student.getName());
+    }
+
+    private Student studentMapper(StudentDto student) {
+        return new Student(student.getId(), student.getAge(), student.getName());
     }
 }

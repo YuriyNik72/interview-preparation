@@ -1,0 +1,74 @@
+<!doctype html>
+
+<html ng-app="app">
+
+<head>
+    <meta charset="utf-8">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <script src="js/bootstrap.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/ui-bootstrap-tpls-2.5.0.min.js"></script>
+</head>
+
+<body>
+
+<div class="container" ng-controller="indexController">
+    <h3>Новый студент:</h3>
+    <form novalidate>
+        <input class="form-control" type="text" placeholder="Имя" ng-model="student.name">
+        <p></p>
+        <input class="form-control" type="text" placeholder="Возраст" ng-model="student.age">
+        <p></p>
+    </form>
+    <button class="btn btn-primary" ng-click="addStudent()">Добавить студента</button>
+    <p></p>
+    <h3>Список студентов</h3>
+    <table class="table table-hover">
+        <tr>
+            <td>ID</td>
+            <td>Имя</td>
+            <td>Возраст</td>
+            <td></td>
+        </tr>
+        <tbody>
+        <tr ng-repeat="s in StudentsPage">
+            <td>{{s.id}}</td>
+            <td>{{s.name}}</td>
+            <td>{{s.age}}</td>
+            <td>
+                <button type="button" class="btn btn-primary" ng-click="showModal(s)">Изменить</button>
+                <button class="btn btn-danger" ng-click="deleteStudent(s.id)">Удалить</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div>
+        <script type="text/ng-template" id="myModalContent.html">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Редактирование студента</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form novalidate>
+                        <input class="form-control" type="hidden" ng-model="student.id" value="{{s.id}}">
+                        <input class="form-control" type="text" placeholder="Имя" ng-model="student.name"
+                               value="{{s.name}}">
+                        <p></p>
+                        <input class="form-control" type="text" placeholder="Возраст" ng-model="student.age"
+                               value="{{s.age}}">
+                        <p></p>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" ng-click="cancel()">Закрыть</button>
+                    <button type="button" class="btn btn-primary" ng-click="ok()">Сохранить</button>
+                </div>
+            </div>
+        </script>
+    </div>
+</div>
+</body>
+</html>

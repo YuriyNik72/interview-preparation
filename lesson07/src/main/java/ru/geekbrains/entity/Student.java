@@ -2,23 +2,17 @@ package ru.geekbrains.entity;
 
 
 import lombok.*;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
-@Component
-@Scope("prototype")
 @Entity
-@Table(name = "students")
+@Table(name = "student")
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private Long id;
 
     @Column(name = "name")
     private String name;
@@ -26,4 +20,9 @@ public class Student {
     @Column(name = "age")
     private int age;
 
+    public Student(Long id, int age, String name) {
+        this.id = id;
+        this.age = age;
+        this.name = name;
+    }
 }
